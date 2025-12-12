@@ -5,7 +5,7 @@ import { useState } from "react";
 type TodoInputProps = {
   onAdd: (title: string) => void;
 };
-
+// コメント
 export function TodoInput({ onAdd }: TodoInputProps) {
   const [title, setTitle] = useState("");
 
