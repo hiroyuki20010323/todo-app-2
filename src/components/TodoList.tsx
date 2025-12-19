@@ -4,9 +4,10 @@ import { TodoItem } from "./TodoItem";
 type TodoListProps = {
   todos: Todo[];
   onDelete: (id: string) => void;
+  onToggle: (id: string) => void;
 };
 
-export function TodoList({ todos, onDelete }: TodoListProps) {
+export function TodoList({ todos, onDelete, onToggle }: TodoListProps) {
   if (todos.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
@@ -27,10 +28,9 @@ export function TodoList({ todos, onDelete }: TodoListProps) {
           className="animate-fadeIn"
           style={{ animationDelay: `${index * 50}ms` }}
         >
-          <TodoItem todo={todo} onDelete={onDelete} />
+          <TodoItem todo={todo} onDelete={onDelete} onToggle={onToggle} />
         </div>
       ))}
     </div>
   );
 }
-

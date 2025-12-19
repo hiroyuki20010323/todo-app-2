@@ -3,15 +3,53 @@ import type { Todo } from "@/types/todo";
 type TodoItemProps = {
   todo: Todo;
   onDelete: (id: string) => void;
+  onToggle: (id: string) => void;
 };
 
-export function TodoItem({ todo, onDelete }: TodoItemProps) {
+export function TodoItem({ todo, onDelete, onToggle }: TodoItemProps) {
   return (
     <div className="group relative flex items-center gap-4 rounded-2xl bg-gradient-to-r from-slate-800/80 to-slate-800/40 p-4 backdrop-blur-sm transition-all duration-300 hover:from-slate-700/80 hover:to-slate-700/40 hover:shadow-lg hover:shadow-indigo-500/10">
-      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 text-sm font-bold text-white shadow-lg shadow-indigo-500/30">
-        {todo.title.charAt(0).toUpperCase()}
-      </div>
-      <p className="flex-1 text-lg font-medium text-slate-100 transition-colors group-hover:text-white">
+      <label className="relative flex cursor-pointer items-center">
+        <input
+          type="checkbox"
+          checked={todo.is_done}
+          onChange={() => onToggle(todo.id)}
+          className="peer sr-only"
+          aria-label={todo.is_done ? "未完了に戻す" : "完了にする"}
+        />
+        <div
+          className={`flex h-6 w-6 items-center justify-center rounded-md border-2 transition-all duration-300 ${
+            todo.is_done
+              ? "border-emerald-500 bg-emerald-500 shadow-lg shadow-emerald-500/30"
+              : "border-slate-500 bg-transparent hover:border-indigo-400"
+          }`}
+        >
+          {todo.is_done && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={3}
+              stroke="currentColor"
+              className="h-4 w-4 text-white"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m4.5 12.75 6 6 9-13.5"
+              />
+            </svg>
+          )}
+        </div>
+      </label>
+      <p
+        className={`flex-1 text-lg font-medium transition-all duration-300 ${
+          todo.is_done
+            ? "text-slate-500 line-through"
+            : "text-slate-100 group-hover:text-white"
+        }`}
+      >
         {todo.title}
       </p>
       <button
@@ -40,4 +78,3 @@ export function TodoItem({ todo, onDelete }: TodoItemProps) {
     </div>
   );
 }
-

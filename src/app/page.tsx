@@ -6,7 +6,7 @@ import { TodoList } from "@/components/TodoList";
 import { Card } from "@/components/Card";
 
 export default function Home() {
-  const { todos, addTodo, deleteTodo } = useTodos();
+  const { todos, isLoading, error, addTodo, deleteTodo, toggleTodo } = useTodos();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950">
@@ -37,7 +37,21 @@ export default function Home() {
                 </span>
               )}
             </div>
-            <TodoList todos={todos} onDelete={deleteTodo} />
+
+            {error && (
+              <div className="mb-4 rounded-lg bg-red-500/10 p-4 text-red-400">
+                {error}
+              </div>
+            )}
+
+            {isLoading ? (
+              <div className="flex flex-col items-center justify-center py-16">
+                <div className="h-8 w-8 animate-spin rounded-full border-4 border-indigo-500/30 border-t-indigo-500" />
+                <p className="mt-4 text-slate-400">読み込み中...</p>
+              </div>
+            ) : (
+              <TodoList todos={todos} onDelete={deleteTodo} onToggle={toggleTodo} />
+            )}
           </Card>
         </main>
       </div>
